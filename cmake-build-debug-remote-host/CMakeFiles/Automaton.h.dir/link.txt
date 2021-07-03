@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/Automaton.h.dir/ColonAutomaton.cpp.o CMakeFiles/Automaton.h.dir/ColonDashAutomaton.cpp.o CMakeFiles/Automaton.h.dir/Lexer.cpp.o CMakeFiles/Automaton.h.dir/Token.cpp.o CMakeFiles/Automaton.h.dir/main.cpp.o  -o Automaton.h 

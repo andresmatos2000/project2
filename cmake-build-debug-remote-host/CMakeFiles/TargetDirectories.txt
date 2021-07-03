@@ -1,0 +1,3 @@
+/users/guest/a/amatos/cs236/cmake-build-debug-remote-host/CMakeFiles/rebuild_cache.dir
+/users/guest/a/amatos/cs236/cmake-build-debug-remote-host/CMakeFiles/edit_cache.dir
+/users/guest/a/amatos/cs236/cmake-build-debug-remote-host/CMakeFiles/project1.dir
