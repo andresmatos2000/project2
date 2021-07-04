@@ -85,9 +85,13 @@ void Parser::datalogProgram(){
     matchToken(TokenType::COLON);
     parseScheme();
     parseSchemeList();
+    if(current->getType() != TokenType::FACTS)
+        throw current->To_String();
     matchToken(TokenType::FACTS);
     matchToken(TokenType::COLON);
     parseFactList();
+    if(current->getType() != TokenType::RULES)
+        throw current->To_String();
     matchToken(TokenType::RULES);
     matchToken(TokenType::COLON);
     parseRuleList();
@@ -107,7 +111,10 @@ void Parser::parseSchemeList() {
 }
 //ID LEFT_PAREN ID idList RIGHT_PAREN
 void Parser::parseScheme() {
-    PredicateHolder = new Predicate(current->getDescription());
+    if(current->getType() == TokenType::ID)
+        PredicateHolder = new Predicate(current->getDescription());
+    else
+        throw current->To_String();
     //std::cout << "parsePredicate " << current->getDescription() << std::endl;
     matchToken(TokenType::ID);
     matchToken(TokenType::LEFT_PAREN);
@@ -116,11 +123,11 @@ void Parser::parseScheme() {
     }
     matchToken(TokenType::ID);
     parseIdList();
-    if(current->getType() == TokenType::ID){
-        parseSchemeList();
-    }
     matchToken(TokenType::RIGHT_PAREN);
     datalog->addScheme(PredicateHolder);
+    if(current->getType() == TokenType::ID){
+        parseSchemeList();
+    };
     //std::cout << "Matched a predicate" << std::endl;
 }
 //COMMA ID idList | lambda
@@ -135,13 +142,11 @@ void Parser::parseIdList() {
 }
 void Parser::parseFactList() {
     //std::cout << "Fact List" << std::endl;
-    if(current->getType() == TokenType::ID){
+    if(current->getType() == TokenType::ID) {
         parseFact();
-        if(current->getType() == TokenType::ID){
+        if (current->getType() == TokenType::ID) {
             parseFactList();
         }
-    } else {
-        throw current->To_String();
     }
 }
 //ID LEFT_PAREN STRING stringList RIGHT_PAREN PERIOD
@@ -158,8 +163,13 @@ void Parser::parseFact(){
         parseStringList();
     }
     matchToken(TokenType::RIGHT_PAREN);
-    matchToken(TokenType::PERIOD);
-    datalog->addFact(PredicateHolder);
+    if(current->getType() == TokenType::PERIOD){
+        matchToken(TokenType::PERIOD);
+        datalog->addFact(PredicateHolder);
+    }
+    else {
+        throw current->To_String();
+    }
 
     //std::cout << "Matched a predicate" << std::endl;
 }
@@ -179,8 +189,6 @@ void Parser::parseRuleList() {
         if(current->getType() == TokenType::ID){
             parseRuleList();
         }
-    } else {
-        throw current->To_String();
     }
 }
 
@@ -261,7 +269,10 @@ void Parser::parseQueryList() {
 }
 //predicate Q_MARK
 void Parser::parseQuery(){
-    RuleHolder = new Rule(PredicateHolder);
+    if(current->getType() == TokenType::ID)
+        RuleHolder = new Rule(PredicateHolder);
+    else
+        throw current->To_String();
     parsePredicate();
     matchToken(TokenType::Q_MARK);
     datalog->addQuery(PredicateHolder);

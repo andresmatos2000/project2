@@ -83,13 +83,13 @@ std::string DatalogProgram::To_String(){
         for (unsigned int i = 0; i < Facts.size(); ++i) {
             fullString += "  " + Facts[i]->To_String() + ".\n";
         }
-    }
+    } else fullString += "Facts(0):\n";
     if(!Rules.empty()){
         fullString += "Rules(" + std::to_string(Rules.size()) + ")"+":\n";
         for (unsigned int i = 0; i < Rules.size(); ++i) {
             fullString += "  " + Rules[i]->To_String() + ".\n";
         }
-    }
+    } else fullString += "Rules(0):\n";
     if(!Queries.empty()){
         fullString += "Queries(" + std::to_string(Queries.size()) + ")"+":\n";
         for (unsigned int i = 0; i < Queries.size(); ++i) {
@@ -101,7 +101,7 @@ std::string DatalogProgram::To_String(){
         for(auto f : Domain){
             fullString += "  " + f + "\n";
         }
-    }
+    }else fullString += "Domain(0):\n";
 
     return fullString;
 }
