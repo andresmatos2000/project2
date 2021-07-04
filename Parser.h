@@ -120,7 +120,7 @@ void Parser::parseScheme() {
     matchToken(TokenType::LEFT_PAREN);
     if(current->getType() == TokenType::ID){
         PredicateHolder->addParameter(new Parameter(current->getType(),current->getDescription()));
-    }
+    } else throw current->To_String();
     matchToken(TokenType::ID);
     parseIdList();
     matchToken(TokenType::RIGHT_PAREN);
