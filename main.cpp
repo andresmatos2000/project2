@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
     }
     cout << "Total Tokens = " + to_string(tokenList.size());
     Parser* parser = new Parser(tokenList);
-    parser->parse(tokenList);
+    delete parser;
     delete lexer;
 
     return 0;

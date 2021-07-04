@@ -19,6 +19,10 @@ public:
         this->current = tokenList[0];
         parse(tokenList);
     };
+    ~Parser(){
+        //std::cout << "In deconstructor" <<std::endl;
+        delete datalog;
+    }
 private:
     std::vector<Token*> tokens;
     Predicate* PredicateHolder;
@@ -50,7 +54,6 @@ bool Parser::matchToken(TokenType tokenType){
     if(tokenType == current->getType()){
         index++;
         current = tokens[index];
-
         return true;
     }
     else{
@@ -69,7 +72,7 @@ void Parser::parse(std::vector<Token *> tokenList) {
         datalogProgram();
     } catch (std::string error) {
         std::cout << "Failure!" << std::endl << error;
-    }
+    } std::cout << "Success!" << std::endl;
 }
 void Parser::datalogProgram(){
     matchToken(TokenType::SCHEMES);
@@ -261,6 +264,7 @@ void Parser::parseQuery(){
 }
 
 void Parser::parseEOF(){
+    //std::cout << "Parse EOF" << std::endl;
     matchToken(TokenType::TYPE_EOF);
 }
 
