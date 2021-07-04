@@ -1,4 +1,5 @@
 #include "Lexer.h"
+#include "Parser.h"
 #include <iostream>
 #include <fstream>
 
@@ -23,9 +24,11 @@ int main(int argc, char** argv) {
     lexer->Run(fullString);
     std::vector<Token*> tokenList = lexer->getTokens();
     for(unsigned int i = 0; i < tokenList.size(); i++){
-        cout << tokenList[i]->To_String() << endl;
+        //cout << tokenList[i]->To_String() << endl;
     }
     cout << "Total Tokens = " + to_string(tokenList.size());
+    Parser* parser = new Parser(tokenList);
+    parser->parse(tokenList);
     delete lexer;
 
     return 0;

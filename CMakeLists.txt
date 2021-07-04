@@ -14,4 +14,4 @@ add_executable(project1
         Lexer.h
         Token.cpp
         Token.h
-        Undefined.h QueriesAutomaton.h StringAutomaton.h CommentAutomaton.h FactsAutomaton.h RulesAutomaton.h SchemesAutomaton.h IDAutomaton.h Matcher.h LeftParenAutomaton.h RightParenAutomaton.h PeriodAutomaton.h CommaAutomaton.h QMarkAutomaton.h EOFAutomaton.h BlockCommentAutomaton.h CommentAutomaton.h AddAutomaton.h MultiplyAutomaton.h)
+        Undefined.h QueriesAutomaton.h StringAutomaton.h CommentAutomaton.h FactsAutomaton.h RulesAutomaton.h SchemesAutomaton.h IDAutomaton.h Matcher.h LeftParenAutomaton.h RightParenAutomaton.h PeriodAutomaton.h CommaAutomaton.h QMarkAutomaton.h EOFAutomaton.h BlockCommentAutomaton.h CommentAutomaton.h AddAutomaton.h MultiplyAutomaton.h Parser.cpp Parser.h Predicate.h Parameter.h Datalog.h Rule.h)

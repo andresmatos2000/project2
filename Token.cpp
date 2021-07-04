@@ -72,3 +72,9 @@ std::string Token::tokenTypeToString(TokenType inputType) {
 std::string Token::To_String() {
     return "(" + tokenTypeToString(tokenType) + ",\"" + _description + "\"," + std::to_string(line_number) + ")";
 }
+TokenType Token::getType(){
+    return this->tokenType;
+}
+std::string Token::getDescription(){
+    return this->_description;
+}
