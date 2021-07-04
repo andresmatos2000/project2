@@ -65,7 +65,7 @@ void DatalogProgram::parseHelper(){
     }
 };
 void DatalogProgram::parseDomain(std::vector<Parameter*>domain){
-    for (int i = 0; i < domain.size(); ++i) {
+    for (unsigned int i = 0; i < domain.size(); ++i) {
         Domain.insert(domain[i]->getValue());
     }
 };
