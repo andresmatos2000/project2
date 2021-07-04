@@ -31,10 +31,15 @@ void Rule::addPredicate(Predicate* predicate) {
 std::string Rule::getHeadPredicate(){
     return this->headPredicate->To_String();
 }
-//std::string Rule::To_String(){
-//    std::string fullString = this->getHeadPredicate();
-//    for (unsigned int i = 0; i < predicateList.size(); ++i) {
-//        return fullString += predicateList[i]->To_String()+  " ";
-//    }
-//}
+std::string Rule::To_String(){
+    std::string fullString = this->getHeadPredicate() + " :- ";
+    for (unsigned int i = 0; i < predicateList.size(); ++i) {
+        if(i == predicateList.size()-1){
+            fullString += predicateList[i]->To_String();
+        } else {
+            fullString += predicateList[i]->To_String() + ",";
+        }
+    }
+    return fullString;
+}
 #endif //PROJECT1_RULE_H

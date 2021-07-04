@@ -21,7 +21,6 @@ public:
     };
     ~Parser(){
         //std::cout << "In deconstructor" <<std::endl;
-        delete datalog;
     }
 private:
     std::vector<Token*> tokens;
@@ -64,15 +63,22 @@ bool Parser::matchToken(TokenType tokenType){
 void Parser::parse(std::vector<Token *> tokenList) {
     this->tokens = tokenList;
 
-    std::cout << std::endl;
+    //std::cout << std::endl;
 //    for(unsigned int i = 0; i < tokens.size(); i++){
 //        std::cout << tokens[i]->tokenTypeToString(tokens[i]->getType()) << std::endl;
 //    }
+    bool exceptionCaught = false;
     try {
         datalogProgram();
     } catch (std::string error) {
-        std::cout << "Failure!" << std::endl << error;
-    } std::cout << "Success!" << std::endl;
+        std::cout << "Failure!" << std::endl << "  " << error;
+        exceptionCaught = true;
+    }
+    if(!exceptionCaught){
+        std::cout << "Success!" << std::endl;
+        datalog->parseHelper();
+        std::cout << datalog->To_String();
+    }
 }
 void Parser::datalogProgram(){
     matchToken(TokenType::SCHEMES);
@@ -89,6 +95,7 @@ void Parser::datalogProgram(){
     matchToken(TokenType::COLON);
     parseQuery();
     parseQueryList();
+    parseEOF();
 }
 void Parser::parseSchemeList() {
     if(current->getType() == TokenType::ID){
@@ -96,8 +103,6 @@ void Parser::parseSchemeList() {
         parseScheme();
     } else if(current->getType() == TokenType::ID) {
         parseSchemeList();
-    } else {
-        throw current->To_String();
     }
 }
 //ID LEFT_PAREN ID idList RIGHT_PAREN
@@ -206,10 +211,13 @@ void Parser::parseHeadPredicate() {
 }
 //COMMA predicate predicateList | lambda
 void Parser::parsePredicateList() {
-    matchToken(TokenType::COMMA);
-    parsePredicate();
-    if(current->getType() == TokenType::COMMA)
-        parsePredicateList();
+    if(current->getType() == TokenType::COMMA){
+        matchToken(TokenType::COMMA);
+        parsePredicate();
+        if(current->getType() == TokenType::COMMA){
+            parsePredicateList();
+        }
+    }
 }
 //ID LEFT_PAREN parameter parameterList RIGHT_PAREN
 void Parser::parsePredicate(){
@@ -249,15 +257,11 @@ void Parser::parseQueryList() {
         if(current->getType() == TokenType::ID) {
             parseQueryList();
         }
-    } else if(current->getType() == TokenType::TYPE_EOF){
-        parseEOF();
-    }
-     else {
-        throw current->To_String();
     }
 }
 //predicate Q_MARK
 void Parser::parseQuery(){
+    RuleHolder = new Rule(PredicateHolder);
     parsePredicate();
     matchToken(TokenType::Q_MARK);
     datalog->addQuery(PredicateHolder);
@@ -265,7 +269,11 @@ void Parser::parseQuery(){
 
 void Parser::parseEOF(){
     //std::cout << "Parse EOF" << std::endl;
-    matchToken(TokenType::TYPE_EOF);
+    if(current->getType() == TokenType::TYPE_EOF) {
+        matchToken(TokenType::TYPE_EOF);
+    } else {
+        throw current->To_String();
+    }
 }
 
 
